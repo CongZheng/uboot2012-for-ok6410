@@ -1,0 +1,23 @@
+#!/bin/sh
+rm -rf ${BUILD_DIR}/u-boot-mmc.bin
+cat ${BUILD_DIR}/u-boot.bin >> ${BUILD_DIR}/temp
+cat ${BUILD_DIR}/u-boot.bin >> ${BUILD_DIR}/temp
+split -b 256k ${BUILD_DIR}/temp
+mv xaa ${BUILD_DIR}/u-boot-256k.bin
+rm -f ${BUILD_DIR}/temp x*
+
+cat ${BUILD_DIR}/u-boot.bin >> ${BUILD_DIR}/temp
+split -b 16k ${BUILD_DIR}/temp
+mv xaa ${BUILD_DIR}/u-boot-env16k.bin
+rm -f ${BUILD_DIR}/temp x*
+
+cat ${BUILD_DIR}/nand_spl/u-boot-spl-16k.bin >> ${BUILD_DIR}/temp
+split -b 8k ${BUILD_DIR}/temp
+mv xaa ${BUILD_DIR}/u-boot-8k.bin
+rm -f ${BUILD_DIR}/temp x*
+
+cat ${BUILD_DIR}/u-boot-256k.bin >> ${BUILD_DIR}/u-boot-mmc.bin
+cat ${BUILD_DIR}/u-boot-env16k.bin >> ${BUILD_DIR}/u-boot-mmc.bin
+cat ${BUILD_DIR}/u-boot-8k.bin >> ${BUILD_DIR}/u-boot-mmc.bin
+
+rm -rf ${BUILD_DIR}/u-boot-256k.bin ${BUILD_DIR}/u-boot-env16k.bin ${BUILD_DIR}/u-boot-8k.bin
